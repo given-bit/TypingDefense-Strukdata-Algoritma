@@ -1,24 +1,16 @@
 {
     "data": [
         {
-            "username": "CyberKnight",
-            "score": 4200
+            "score": 2540,
+            "username": "ShadowHunter99"
         },
         {
-            "username": "TurboVortex",
-            "score": 3120
+            "score": 1890,
+            "username": "PixelQueen_x"
         },
         {
-            "username": "ShadowHunter99",
-            "score": 2540
-        },
-        {
-            "username": "PixelQueen_x",
-            "score": 1890
-        },
-        {
-            "username": "Lofi_Vibes",
-            "score": 950
+            "score": 3120,
+            "username": "TurboVortex"
         }
     ]
 }
