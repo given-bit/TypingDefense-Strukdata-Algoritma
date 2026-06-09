@@ -1,41 +1,21 @@
 #include "WordGenerator.h"
-#include <vector>
+#include "word_module.h"
 #include <random>
 
-// menggunakna namspace anonim agar fungsi di file ini tidak bisa dipakai di luar file
 namespace {
-    // Word lists
-    const std::vector<std::string> easy = {
-        "cat", "dog", "sun", "tree", "book",
-        "run", "fish", "bird", "moon", "star",
-        "ship", "mars", "earth", "venus", "rock"
-    };
-
-    const std::vector<std::string> medium = {
-        "planet", "rocket", "system", "typing",
-        "comet", "orbit", "alien", "space",
-        "laser", "pilot", "galaxy", "meteor",
-        "probe", "saturn"
-    };
-
-    const std::vector<std::string> hard = {
-        "asteroid", "galaxy", "algorithm", "development",
-        "supernova", "astronaut", "telescope", "constellation",
-        "spaceship", "gravity", "universe", "starlight",
-        "satellite", "blackhole"
-    };
-
-    // Random engine (dibuat sekali)
+    // Random number generator dengan Mersenne Twister (seed dari hardware)
     std::mt19937 rng(std::random_device{}());
 
+    // Pilih satu kata random dari vector kata yang diberikan
     const std::string& pick(const std::vector<std::string>& words) {
-        std::uniform_int_distribution<> dist(0, words.size() - 1);
+        // Distribusi uniform dari index 0 hingga size-1
+        std::uniform_int_distribution<> dist(0, static_cast<int>(words.size()) - 1);
         return words[dist(rng)];
     }
 }
 
-// fungsi untuk mengambil kata secara acak dengan tingkat kesulitan yang dipilih
 const std::string& WordSystem::getRandomWord(Difficulty diff) {
+    // Pilih kata dari pool yang sesuai dengan tingkat kesulitan
     switch (diff) {
         case Difficulty::EASY:
             return pick(easy);
@@ -45,5 +25,6 @@ const std::string& WordSystem::getRandomWord(Difficulty diff) {
             return pick(hard);
     }
 
+    // Fallback: kata pertama dari pool easy (seharusnya tidak pernah tercapai)
     return easy[0];
 }

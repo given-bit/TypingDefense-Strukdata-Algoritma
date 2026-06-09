@@ -5,47 +5,71 @@
 #include "MainMenu.h"
 #include "GameOver.h"
 #include "Credit.h"
-#include "ScoreManager.h"
 #include "GameplayManager.h"
 #include "Pause.h"
+#include "DataManager.h"
+#include "TechTree.h"
+#include "TechTreeUI.h"
+#include "Dictionary.h"
+#include "UnlockedWords.h"
 #include <vector>
 #include <string>
+#include "LoginScreen.h"
+#include "RegisterScreen.h"
+#include "LogoutScreen.h"
 
+// Kelas utama game — mengelola state machine, game loop, dan seluruh subsistem.
+// Menggunakan pola Game::Run() -> Update() / Draw() yang dipanggil tiap frame.
 class Game {
 public:
     Game();
     ~Game();
-    void Run();
+    void Run();         // Loop utama hingga window ditutup atau player keluar
 
 private:
     bool statusMenuQuit;
     int score;
     GameState state;
 
+    // === Subsistem Tampilan ===
     Background bg;        // Background scrolling
     MainMenu mainMenu;    // Menu utama
     GameOver gameOver;    // Game over screen
     PauseMenu pauseMenu;
     Credit creditScreen;
 
+    // === Subsistem Gameplay ===
     GameplayManager* gameplayManager;
-    bool isSaved;
-    int highestScore;
-    std::string playerName;
 
-    // AUDIO - DAFTARKAN SEMUA DI SINI
-    Music musicCredit; 
-    Music musicLobby;  
+    // === Subsistem Akun ===
+    LoginScreen loginScreen;
+    RegisterScreen registerScreen;
+    LogoutScreen logoutScreen;
 
-    // Variabel Transisi & Glitch (LOGIKA DARI LEADERBOARD)
+    // === Tech Tree & Dictionary ===
+    TechTree techTree;
+    TechTreeUI techTreeUI;
+    Dictionary m_dictionary;
+    UnlockedWords m_unlockedWords;
+
+    // === Data Pemain ===
+    PlayerProfile m_currentPlayer;
+    bool m_isLoggedIn = false;
+
+    // === Audio ===
+    Music musicCredit;
+    Music musicLobby;
+
+    // === Transisi & Efek Glitch (dari Leaderboard) ===
     float transitionTimer;
     bool isTransitioning;
-    float glitchIntensity; 
+    float glitchIntensity;
     GameState targetState;
 
     Sound glitchMasuk;
     Sound glitchKeluar;
 
+    // === Metode Update per State ===
     void Update();
     void Draw();
     void restartGame();
@@ -56,6 +80,12 @@ private:
     void UpdateGameOver();
     void UpdateLeaderboard();
     void UpdateCredit();
+    void UpdateLoginRegister();
+    void UpdateRegister();
+    void UpdateLogout();
+    void UpdateTechTree();
+    void UpdateDictionary();
+    void UpdateUnlockedWords();
 
     void DrawMenu();
     void DrawGameplay();
@@ -63,4 +93,12 @@ private:
     void DrawGameOver();
     void DrawLeaderboard();
     void DrawCredit();
+    void DrawLoginRegister();
+    void DrawRegister();
+    void DrawLogout();
+    void DrawTechTree();
+    void DrawDictionary();
+    void DrawUnlockedWords();
+
+    void DrawPlayerInfo();
 };
